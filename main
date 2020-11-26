@@ -1,0 +1,26 @@
+# main
+# all arguments present?
+# if no path specified, use C:\prgm1000
+# check if any arguments
+
+# read(sourcepath)
+# check if file exists
+# error message if source path does not exist
+# output plain text
+
+
+# alter(plain text)
+# add header
+# read OS type
+# read logged-in user
+# read date and time
+#output edited plain text
+
+
+# write(destpath, edited plain text)
+# loop:
+#try/except to open file at dest path
+# if: error message if dest path does not exist, if not, do they want to create path? if not, terminate program
+#   else continue
+# if: error message if file already exists at dest path. Do they want to overwrite? or new file? whats the name of the file?
+# misc error message??
