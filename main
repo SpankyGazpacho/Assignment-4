@@ -16,6 +16,30 @@
 # read date and time
 #output edited plain text
 
+inputtext = 'line 1\nline 2\nline 3\nline 4'
+# the above line will need to be changed to work with the other parts
+
+import platform
+import getpass
+from datetime import datetime
+
+os = str(platform.system())
+uname = str(getpass.getuser())
+daytime = str(datetime.now())
+
+header = os + '\n' + uname + '\n' + daytime + '\n'
+
+spltext = inputtext.split('\n')
+
+proctext = ''
+
+for i in range(len(spltext)):
+    proctext += (str(datetime.now().time()) + ' ' + spltext[i] + '\n')
+
+finaltext = header + proctext
+print(finaltext)
+# this print can be removed once testing is done
+
 
 # write(destpath, edited plain text)
 # loop:
