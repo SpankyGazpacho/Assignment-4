@@ -2,12 +2,11 @@
 
 numofargs = len(sys.argv)
 
-inputfile = sys.argv[1]
+inputpath = sys.argv[1]
 outputfile = sys.argv[2]
 
 if numofargs = 2:
     outputfile = r'c:\\prgm1000\assignmentout.txt'
-
 
 elif numofargs == 1 or numofargs > 3:
     print("You need to enter an input and an output file.")
@@ -16,20 +15,41 @@ def checkfileexist(file):
     if os.path.exists(file):
         if os.path.isfile(file):
             code = 1
-            # use the inputfile as is (ask to overwrite for output)
+            # file is good
 
         elif os.path.isdir(file):
-            #You need to specify a file, not a folder.
+            # is a folder not a file
             code = 2
 
         else:
-            #I have no idea what you just put in.
+            #I have no idea what you just put in
             code = 3
 
     else:
-        #The specified input file does not exist, please try again
+        #The specified input does not exist
         code = 4
+
     return(code)
+
+def read(inputpath):
+    code = checkfileexist(inputpath)
+
+    if code == 1:
+        placeholder = open(inputpath, "r")
+        inputfile = placeholder.read()
+        return(inputfile)
+
+    elif code == 2:
+        print("The entered argument is a folder, not a file!")
+        # exit the program
+
+    elif code == 3:
+        print("I have no idea what you just put in...")
+        # exit the program
+
+    elif code == 4:
+        print("The specified path does not exist!")
+        # exit the program
 
 # all arguments present?
 # if no path specified, use C:\prgm1000
