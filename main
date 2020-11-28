@@ -1,7 +1,9 @@
 # main
+# all arguments present?
+# if no path specified, use C:\prgm1000
+# check if any arguments
 
 numofargs = len(sys.argv)
-
 inputpath = sys.argv[1]
 outputfile = sys.argv[2]
 
@@ -10,6 +12,7 @@ if numofargs = 2:
 
 elif numofargs == 1 or numofargs > 3:
     print("You need to enter an input and an output file.")
+
 
 def checkfileexist(file):
     if os.path.exists(file):
@@ -30,6 +33,12 @@ def checkfileexist(file):
         code = 4
 
     return(code)
+    
+    
+# read(sourcepath)
+# check if file exists
+# error message if source path does not exist
+# output plain text
 
 def read(inputpath):
     code = checkfileexist(inputpath)
@@ -51,46 +60,35 @@ def read(inputpath):
         print("The specified path does not exist!")
         # exit the program
 
-# all arguments present?
-# if no path specified, use C:\prgm1000
-# check if any arguments
-
-# read(sourcepath)
-# check if file exists
-# error message if source path does not exist
-# output plain text
-
 
 # alter(plain text)
 # add header
 # read OS type
 # read logged-in user
 # read date and time
-#output edited plain text
+# output edited plain text
 
-inputtext = 'line 1\nline 2\nline 3\nline 4'
-# the above line will need to be changed to work with the other parts
+def alter(inputtext)
+    import platform
+    import getpass
+    from datetime import datetime
 
-import platform
-import getpass
-from datetime import datetime
+    os = str(platform.system())
+    uname = str(getpass.getuser())
+    daytime = str(datetime.now())
 
-os = str(platform.system())
-uname = str(getpass.getuser())
-daytime = str(datetime.now())
+    header = os + '\n' + uname + '\n' + daytime + '\n'
 
-header = os + '\n' + uname + '\n' + daytime + '\n'
+    spltext = inputtext.split('\n')
 
-spltext = inputtext.split('\n')
+    proctext = ''
 
-proctext = ''
+    for i in range(len(spltext)):
+        proctext += (str(datetime.now().time()) + ' ' + spltext[i] + '\n')
 
-for i in range(len(spltext)):
-    proctext += (str(datetime.now().time()) + ' ' + spltext[i] + '\n')
-
-finaltext = header + proctext
-print(finaltext)
-# this print can be removed once testing is done
+    finaltext = header + proctext
+    print(finaltext)
+    # this print can be removed once testing is done
 
 
 # write(destpath, edited plain text)
