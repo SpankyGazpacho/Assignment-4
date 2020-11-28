@@ -1,0 +1,48 @@
+import sys, os
+
+numargs = len(sys.argv)
+#Remember, sys.argv[0] is the name of the program, not an actual command line argument
+#print("There are", numargs, "command line arguments.")
+
+#for x in range(numargs):
+#    print("Command line argument", x, "is", sys.argv[x])
+
+#arguments in run -> edit configurations
+if numargs > 1:
+    inputfile = sys.argv[1]
+    if os.path.exists(inputfile):
+        myfile = open(inputfile, "r")
+        filedata = myfile.read()
+        myfile.close()
+        print(filedata)
+    else:
+        print("The file", inputfile, "does not exist.")
+else:
+    print("This program requires an input file as a CLI argument!")
+
+if numargs > 2:
+    tryfile = True
+    outputfile = sys.argv[2]
+    while tryfile == True:
+        if os.path.exists(outputfile):
+            print("The file", outputfile, "already exists.")
+            userinput = input("Do you want to overwrite it? Y/N")
+            if userinput == "Y":
+                outfile = open(outputfile, "w")
+                #write "test" to the outfile
+                outfile.write("test")
+                outfile.close()
+                tryfile = False
+            else:
+                outputfile = input("Please enter a filename with full path: ")
+                tryfile = True
+        else:
+            outfile = open(outputfile, "w")
+            # write "test" to the outfile
+            outfile.write("test")
+            outfile.close()
+            tryfile = False
+
+
+else:
+    print("This program requires a input AND output file as CLI arguments!")
