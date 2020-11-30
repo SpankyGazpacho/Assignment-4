@@ -97,4 +97,4 @@ def alter(inputtext)
 # if: error message if dest path does not exist, if not, do they want to create path? if not, terminate program
 #   else continue
 # if: error message if file already exists at dest path. Do they want to overwrite? or new file? whats the name of the file?
-# misc error message??
+# try to write to file, if misc error, generic error message
