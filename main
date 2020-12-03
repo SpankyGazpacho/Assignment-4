@@ -92,9 +92,7 @@ def alter(inputtext)
 
 
 # write(destpath, edited plain text)
-# loop:
-#try/except to open file at dest path
-# if: error message if dest path does not exist, if not, do they want to create path? if not, terminate program
-#   else continue
+# loop: 
+# error message if dest path does not exist
 # if: error message if file already exists at dest path. Do they want to overwrite? or new file? whats the name of the file?
 # try to write to file, if misc error, generic error message
