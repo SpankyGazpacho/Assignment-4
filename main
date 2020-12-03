@@ -2,12 +2,18 @@
 # all arguments present?
 # if no path specified, use C:\prgm1000
 # check if any arguments
+from datetime import datetime
+import sys, os, platform, getpass
 
 numofargs = len(sys.argv)
-inputpath = sys.argv[1]
-outputfile = sys.argv[2]
 
-if numofargs = 2:
+if numofargs >= 2:
+    inputpath = sys.argv[1]
+
+if numofargs >= 3:
+    outputfile = sys.argv[2]
+
+if numofargs == 2:
     outputfile = r'c:\\prgm1000\assignmentout.txt'
 
 elif numofargs == 1 or numofargs > 3:
@@ -18,23 +24,23 @@ def checkfileexist(file):
     if os.path.exists(file):
         if os.path.isfile(file):
             code = 1
-            # file is good
+            # path is good and is a file
 
         elif os.path.isdir(file):
             # is a folder not a file
             code = 2
 
         else:
-            #I have no idea what you just put in
+            # I have no idea what you just put in
             code = 3
 
     else:
-        #The specified input does not exist
+        # The specified input does not exist
         code = 4
 
-    return(code)
-    
-    
+    return (code)
+
+
 # read(sourcepath)
 # check if file exists
 # error message if source path does not exist
@@ -46,18 +52,18 @@ def read(inputpath):
     if code == 1:
         placeholder = open(inputpath, "r")
         inputfile = placeholder.read()
-        return(inputfile)
+        return (inputfile)
 
     elif code == 2:
-        print("The entered argument is a folder, not a file!")
+        print("The entered input argument is a folder, not a file!")
         # exit the program
 
     elif code == 3:
-        print("I have no idea what you just put in...")
+        print("I have no idea what you just put in for the input argument...")
         # exit the program
 
     elif code == 4:
-        print("The specified path does not exist!")
+        print("The specified input argument path does not exist!")
         # exit the program
 
 
@@ -68,10 +74,7 @@ def read(inputpath):
 # read date and time
 # output edited plain text
 
-def alter(inputtext)
-    import platform
-    import getpass
-    from datetime import datetime
+def alter(inputtext):
 
     os = str(platform.system())
     uname = str(getpass.getuser())
@@ -92,8 +95,49 @@ def alter(inputtext)
 
 
 # write(destpath, edited plain text)
+
+def write(destpath, text):
+    destcode = checkfileexist(destpath)
+    if destcode == 1:
+        okflag = input(print("The output file already exists! Would you like to overwrite it? Y/N: ")).upper()
+        if okflag == "Y":
+            try:
+                placeholder = open(destpath, "w")
+                placeholder.write(text)
+                placeholder.close()
+                # exit the program
+            except:
+                print("An unexpected error has occurred. Please contact your local programmer.")
+        elif okflag == "N":
+            print("Goodbye!")
+            # exit the program
+        else:
+            print("That's not what I asked for! Goodbye!")
+            # exit the program
+
+    elif destcode == 2:
+        print("The entered output argument is a folder, not a file!")
+        # exit the program
+
+    elif destcode == 3:
+        print("I have no idea what you just put in for the output argument...")
+        # exit the program
+
+    elif destcode == 4:
+        try:
+            # write the path and file
+            placeholder = open(destpath, "w")
+            placeholder.write(text)
+            placeholder.close()
+            # exit the program
+        except:
+            print("That is not a valid output path!")
+            # exit the program
+
+
+
 # loop:
-#try/except to open file at dest path
+# try/except to open file at dest path
 # if: error message if dest path does not exist, if not, do they want to create path? if not, terminate program
 #   else continue
 # if: error message if file already exists at dest path. Do they want to overwrite? or new file? whats the name of the file?
