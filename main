@@ -5,37 +5,23 @@
 from datetime import datetime
 import sys, os, platform, getpass
 
-numofargs = len(sys.argv)
-
-if numofargs >= 2:
-    inputpath = sys.argv[1]
-
-if numofargs >= 3:
-    outputfile = sys.argv[2]
-
-if numofargs == 2:
-    outputfile = r'c:\\prgm1000\assignmentout.txt'
-
-elif numofargs == 1 or numofargs > 3:
-    print("You need to enter an input and an output file.")
-
 
 def checkfileexist(file):
     if os.path.exists(file):
         if os.path.isfile(file):
             code = 1
-            # path is good and is a file
+            # path ends with a valid filename
 
         elif os.path.isdir(file):
-            # is a folder not a file
             code = 2
+            #path ends with a folder
 
         else:
             # I have no idea what you just put in
             code = 3
 
     else:
-        # The specified input does not exist
+        # Path does not exist
         code = 4
 
     return (code)
@@ -47,24 +33,10 @@ def checkfileexist(file):
 # output plain text
 
 def read(inputpath):
-    code = checkfileexist(inputpath)
 
-    if code == 1:
-        placeholder = open(inputpath, "r")
-        inputfile = placeholder.read()
-        return (inputfile)
-
-    elif code == 2:
-        print("The entered input argument is a folder, not a file!")
-        # exit the program
-
-    elif code == 3:
-        print("I have no idea what you just put in for the input argument...")
-        # exit the program
-
-    elif code == 4:
-        print("The specified input argument path does not exist!")
-        # exit the program
+    placeholder = open(inputpath, "r")
+    inputfile = placeholder.read()
+    return (inputfile)
 
 
 # alter(plain text)
@@ -90,16 +62,13 @@ def alter(inputtext):
         proctext += (str(datetime.now().time()) + ' ' + spltext[i] + '\n')
 
     finaltext = header + proctext
-    print(finaltext)
+    return finaltext
     # this print can be removed once testing is done
 
 
-# write(destpath, edited plain text)
-
-def write(destpath, text):
-    destcode = checkfileexist(destpath)
+def write(destpath, text, destcode):
     if destcode == 1:
-        okflag = input(print("The output file already exists! Would you like to overwrite it? Y/N: ")).upper()
+        okflag = input("The output file already exists! Would you like to overwrite it? Y/N: ").upper()
         if okflag == "Y":
             try:
                 placeholder = open(destpath, "w")
@@ -115,30 +84,65 @@ def write(destpath, text):
             print("That's not what I asked for! Goodbye!")
             # exit the program
 
-    elif destcode == 2:
-        print("The entered output argument is a folder, not a file!")
-        # exit the program
-
-    elif destcode == 3:
-        print("I have no idea what you just put in for the output argument...")
-        # exit the program
-
     elif destcode == 4:
-        try:
-            # write the path and file
+        # check if the path minus the last element is a valid directory
+        splitinp = destpath.split("\\")
+        if splitinp[-1] == '':
+            splitinp.remove('')
+
+        reass = ''
+        for i in range(len(splitinp) - 1):
+            reass += splitinp[i]
+            reass += '\\'
+
+        if os.path.isdir(reass):
+            #If path is valid
             placeholder = open(destpath, "w")
             placeholder.write(text)
             placeholder.close()
-            # exit the program
-        except:
-            print("That is not a valid output path!")
-            # exit the program
+        else:
+#           If path is invalid
+            print("The destination path is invalid!")
 
-
-
-# loop:
-# try/except to open file at dest path
 # if: error message if dest path does not exist, if not, do they want to create path? if not, terminate program
 #   else continue
 # if: error message if file already exists at dest path. Do they want to overwrite? or new file? whats the name of the file?
 # try to write to file, if misc error, generic error message
+
+numofargs = len(sys.argv)
+
+if numofargs == 3:
+    #run normally
+    splitoutput = sys.argv[2].split("\\")
+
+    if len(splitoutput) == 1:
+        destpath = "C:\\Test\\" + str(sys.argv[2])
+    else:
+        destpath = sys.argv[2]
+
+    sourcepath = sys.argv[1]
+
+    sourcecode = checkfileexist(sourcepath)
+    destcode = checkfileexist(destpath)
+    if (sourcecode == 1) & ((destcode == 1) | (destcode == 4)):
+        inptext = read(sourcepath)
+        ouptext = alter(inptext)
+        write(destpath,ouptext,destcode)
+    else:
+        #error codes based sourcecode and destcode
+        if destcode == 2:
+            print("The destination path is folder, not a filename!")
+        if destcode == 3:
+            print("THIS IS YOUR FAULT: An unexpected error has occurred with the destination path")
+        if sourcecode == 2:
+            print("The source path is a folder not a file!")
+        if sourcecode == 3:
+            print("THIS IS YOUR FAULT: An unexpected error has occurred with the source path!")
+        if sourcecode == 4:
+            print("The source path does not exist!")
+else:
+    #error based on number of arguments
+    if (numofargs == 1) | (numofargs == 2):
+        print("You need to specify input and output paths!")
+    if numofargs > 3:
+        print("You put too many arguments!")
